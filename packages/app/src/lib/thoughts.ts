@@ -1,5 +1,7 @@
 import { supabase } from "./supabase";
 
+const APP_ID = import.meta.env.VITE_APP_ID;
+
 export type Thought = {
   id: string;
   content: string;
@@ -13,7 +15,7 @@ export const saveThought = async (content: string, ideas: string[]) => {
 
   const { data, error } = await supabase
     .from("thoughts")
-    .insert({ user_id: user.id, content, ideas })
+    .insert({ user_id: user.id, content, ideas, app_id: APP_ID })
     .select()
     .single();
 
@@ -25,6 +27,7 @@ export const getThoughts = async () => {
   const { data, error } = await supabase
     .from("thoughts")
     .select("*")
+    .eq("app_id", APP_ID)
     .order("created_at", { ascending: false });
 
   if (error) throw error;
@@ -32,6 +35,10 @@ export const getThoughts = async () => {
 };
 
 export const deleteThought = async (id: string) => {
-  const { error } = await supabase.from("thoughts").delete().eq("id", id);
+  const { error } = await supabase
+    .from("thoughts")
+    .delete()
+    .eq("id", id)
+    .eq("app_id", APP_ID);
   if (error) throw error;
 };
