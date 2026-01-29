@@ -56,7 +56,7 @@ export const Dashboard = () => {
         <h1>Spark</h1>
         <p>Turn thoughts into business ideas.</p>
         <p style={{ marginTop: "1rem" }}>
-          <Link to="/login">Login</Link> or <Link to="/signup">Sign up</Link> to get started.
+          <Link to="/login">Sign in</Link> to get started.
         </p>
       </div>
     );
